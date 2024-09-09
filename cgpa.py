@@ -1,32 +1,17 @@
-import tkinter as tk
+def calculate_cgpa(subjects):
+    total_credits = 0
+    total_grade_points = 0
 
-def evaluate_expression():
-    try:
-        expression = entry.get()
-        result = eval(expression)
-        entry.delete(0, tk.END)
-        entry.insert(0, str(result))
-    except Exception:
-        entry.delete(0, tk.END)
-        entry.insert(0, "Error")
+    for subject in subjects:
+        grade, credits = subject
+        total_credits += credits
+        grade_points = {'S': 10, 'A': 9, 'B': 8, 'C': 7, 'D': 6, 'F': 0}
+        total_grade_points += grade_points.get(grade.upper(), 0) * credits
 
-root = tk.Tk()
-root.title("Calculator")
+    cgpa = total_grade_points / total_credits
+    return cgpa
 
-entry = tk.Entry(root, width=20)
-entry.grid(row=0, column=0, columnspan=4)
-
-buttons = [
-    '7', '8', '9', '/',
-    '4', '5', '6', '*',
-    '1', '2', '3', '-',
-    'C', '0', '=', '+'
-]
-
-for i, button_text in enumerate(buttons):
-    row, col = divmod(i, 4)
-    tk.Button(root, text=button_text, command=lambda text=button_text: entry.insert(tk.END, text)).grid(row=row + 1, column=col)
-
-tk.Button(root, text="=", command=evaluate_expression).grid(row=5, column=0, columnspan=4)
-
-root.mainloop()
+# Example usage:
+subjects_list = [('A', 4), ('B', 3), ('S', 2)]  # List of (grade, credits) pairs
+result_cgpa = calculate_cgpa(subjects_list)
+print(f"Your CGPA is: {result_cgpa:.2f}")
